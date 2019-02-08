@@ -20,4 +20,8 @@ export class ExaltuserService {
   getUser( id ): Observable<Exaltuser> {
     return this.http.get<Exaltuser>(this.baseUrl + 'users/' + id);
   }
+
+  updateUser(id: number, user: Exaltuser) {
+    return this.http.put(this.baseUrl + 'users/' + id, user);
+  }
 }
