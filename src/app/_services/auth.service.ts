@@ -24,8 +24,8 @@ constructor(private _http: HttpClient) { }
     this.photUrl.next(photUrl);
   }
 
-  login(model: any) {
-    return this._http.post(this.baseUrl + 'login', model)
+  login(user: Exaltuser) {
+    return this._http.post(this.baseUrl + 'login', user)
             .pipe(
               map((responce: any) => {
                 const user = responce;
