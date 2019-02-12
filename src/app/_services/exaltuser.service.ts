@@ -15,7 +15,7 @@ export class ExaltuserService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(page?, itemPerPage?, userParams?): Observable<PaginatedResult<Exaltuser[]>> {
+  getUsers(page?, itemPerPage?, userParams?, likeParams?): Observable<PaginatedResult<Exaltuser[]>> {
     const paginatedResult: PaginatedResult<Exaltuser[]> = new PaginatedResult<Exaltuser[]>();
 
     let params = new HttpParams();
@@ -24,14 +24,22 @@ export class ExaltuserService {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemPerPage);
     }
-    
+
     if (userParams != null) {
       params = params.append('minAge', userParams.minAge);
       params = params.append('maxAge', userParams.maxAge);
       params = params.append('gender', userParams.gender);
       params = params.append('orderBy', userParams.orderBy);
     }
-     
+
+    if (likeParams === 'Likers') {
+      params = params.append('likers', 'true');
+    }
+
+    if (likeParams === 'Likees') {
+      params = params.append('likees', 'true');
+    }
+
     return this.http.get<Exaltuser[]>(this.baseUrl + 'users', { observe: 'response', params })
     .pipe(
       map(responce => {
@@ -58,5 +66,9 @@ export class ExaltuserService {
 
   deletePhoto(userId: number, id: number) {
     return this.http.delete(this.baseUrl + 'users/' + userId + '/photos/' + id );
+  }
+
+  sendLike(id: number, recipientId: number) {
+    return this.http.post(this.baseUrl + 'users/' + id + '/like/' + recipientId, {});
   }
 }
