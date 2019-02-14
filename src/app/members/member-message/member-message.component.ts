@@ -50,6 +50,6 @@ export class MemberMessageComponent implements OnInit {
       this.newMessage.content = '';
     }, error => {
       this.alertidy.error(error);
-    })
+    });
   }
 }
